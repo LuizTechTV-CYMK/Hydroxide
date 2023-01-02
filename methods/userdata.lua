@@ -19,7 +19,7 @@ local function getInstancePath(instance)
         local _success, result = pcall(game.GetService, game, instance.ClassName)
         
         if result then
-            head = ':GetService(\'' .. instance.ClassName .. '\')'
+            head = ':GetService \'' .. instance.ClassName .. '\''
         elseif instance == client then
             head = '.LocalPlayer' 
         else
