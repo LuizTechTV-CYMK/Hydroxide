@@ -27,7 +27,7 @@ local function getInstancePath(instance)
             local noPunct = nonAlphaNum:gsub('[%s%p]', '')
             
             if tonumber(name:sub(1, 1)) or (#nonAlphaNum ~= 0 and #noPunct == 0) then
-                head = '["' .. name:gsub('"', '\\"'):gsub('\\', '\\\\') .. '"]'
+                head = '[\'' .. name:gsub('\'', '\\\''):gsub('\\', '\\\\') .. '\']'
             elseif #nonAlphaNum ~= 0 and #noPunct > 0 then
                 head = '[' .. toUnicode(name) .. ']'
             end
