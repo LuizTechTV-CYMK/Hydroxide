@@ -5,7 +5,7 @@ local client = players.LocalPlayer
 
 local function getInstancePath(instance)
     local name = instance.Name
-    local head = (#name > 0 and '.' .. name) or "['']"
+    local head = (#name > 0 and '\n  :WaitForChild \'' .. name..'\'') or "['']"
     
     if not instance.Parent and instance ~= game then
         return head .. " --[[ PARENTED TO NIL OR DESTROYED ]]"
@@ -13,8 +13,8 @@ local function getInstancePath(instance)
     
     if instance == game then
         return "game"
-    elseif instance == workspace then
-        return "workspace"
+    -- elseif instance == workspace then
+    --     return "workspace"
     else
         local _success, result = pcall(game.GetService, game, instance.ClassName)
         
