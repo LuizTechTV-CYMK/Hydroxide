@@ -177,7 +177,7 @@ if getConnections then
             connection:Disconnect()
         else
             setReadOnly(conn, true)
-            connection:Disable()
+            pcall(function()connection:Disable()end)
         end
     end
 end
