@@ -31,6 +31,13 @@ if Window and PROTOSMASHER_LOADED then
     getgenv().get_script_function = nil
 end
 
+local loadstring = loadstring or load;
+local loadstringWarnOnError = function(content, chunkName)
+  local chunk, err = loadstring(content, chunkName);
+  if type(chunk) ~= 'function' then warn('Error Compiling \''..asset..'.lua\'\n-> Error: '..tostring(err or 'Unknown - Chunk wasn\'t function')..'\nFurther errors may be caused by this.')end
+  return chunk, err
+end
+
 local globalMethods = {
     checkCaller = checkcaller,
     newCClosure = newcclosure,
@@ -238,12 +245,12 @@ if readFile and writeFile then
                         end
                     end
 
-                    assets = { loadstring(content, asset .. '.lua')() }
+                    assets = { loadstringWarnOnError(content, asset .. '.lua')() }
                 else
-                    assets = { loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua"), asset .. '.lua')() }
+                    assets = { loadstringWarnOnError(game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua"), asset .. '.lua')() }
                 end
             else
-                assets = { loadstring(readFile("hydroxide/" .. asset .. ".lua"), asset .. '.lua')() }
+                assets = { loadstringWarnOnError(readFile("hydroxide/" .. asset .. ".lua"), '(oh/)' .. asset .. '.lua')() }
             end
 
             importCache[asset] = assets
@@ -270,10 +277,9 @@ if readFile and writeFile then
                 else
                     content = result
                 end
-
-                assets = { loadstring(content, asset .. '.lua')() }
+                assets = { loadstringWarnOnError(content, asset .. '.lua')() }
             else
-                assets = { loadstring(readFile("hydroxide/" .. asset .. ".lua"), asset .. '.lua')() }
+                assets = { loadstringWarnOnError(readFile("hydroxide/" .. asset .. ".lua"), '(oh/)' .. asset .. '.lua')() }
             end
 
             importCache[asset] = assets
